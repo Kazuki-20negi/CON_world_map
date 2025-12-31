@@ -11,8 +11,7 @@ import os
 # 設定
 # ---------------------------------------------------------
 # 解析したいファイル名をリストに追加してください
-INPUT_FILES = ['test.html'] 
-
+INPUT_FILES = ['test.html', "test2.html", "test3.html"]
 OUTPUT_MAP = 'war_map_con_wiki.html'
 
 # 除外リスト
@@ -48,7 +47,8 @@ TRANSLATION_DICT = {
     'Myanmar': 'ミャンマー', 'Thailand': 'タイ', 'Vietnam': 'ベトナム',
     'North Korea': '北朝鮮', 'South Korea': '韓国', 'Colombia': 'コロンビア',
     'Venezuela': 'ベネズエラ', 'Peru': 'ペルー', 'Chile': 'チリ', 'Bolivia': 'ボリビア',
-    'Mexico': 'メキシコ', 'Cuba': 'キューバ',
+    'Mexico': 'メキシコ', 'Cuba': 'キューバ', 'DR Congo': "コンゴ", 'Cambodia': 'カンボジア',
+    'Korea': '朝鮮', 'Uruguay': 'ウルグアイ',
 
     # --- 歩兵 (Infantry) ---
     'Motorized Infantry': '自動車化歩兵',
@@ -56,7 +56,7 @@ TRANSLATION_DICT = {
     'Naval Infantry': '海兵隊',
     'Airborne Infantry': '空挺部隊', # Wiki表記に合わせ調整
     'Special Forces': '特殊部隊',
-    'National Guard': '国民衛兵',
+    'National Guard': '州兵',
     'Mercenaries': '傭兵',
 
     # --- 装甲車 (Armored) ---
@@ -67,13 +67,13 @@ TRANSLATION_DICT = {
     'Tank Destroyer': '駆逐戦車',
     
     # --- 支援 (Support) ---
-    'Towed Artillery': '牽引砲',
+    'Towed Artillery': '榴弾砲',
     'Mobile Artillery': '自走砲',
     'Multiple Rocket Launcher': '多連装ロケットランチャー',
-    'Mobile Anti-Air Vehicle': '自走対空車',
-    'Mobile SAM Launcher': '自走SAM発射機',
+    'Mobile Anti-Air Vehicle': '自走対空砲',
+    'Mobile SAM Launcher': 'SAM',
     'Theater Defense System': '戦域防衛システム',
-    'Mobile Radar': '機動レーダー',
+    'Mobile Radar': '移動式レーダー',
 
     # --- ヘリコプター (Helicopters) ---
     'Helicopter Gunship': '武装ヘリコプター',
@@ -83,7 +83,7 @@ TRANSLATION_DICT = {
 
     # --- 戦闘機 (Fighters) ---
     'Air Superiority Fighter': '制空戦闘機',
-    'Strike Fighter': '攻撃機', # "ストライクファイター"とする場合もあり
+    'Strike Fighter': '打撃戦闘機',
     'UAV': 'UAV',
     'Naval Patrol Aircraft': '哨戒機',
     'AWACS': '早期警戒管制機',
