@@ -21,7 +21,7 @@ EXCLUDED_COUNTRIES = ['Undead', 'アンデッド', 'AI', 'Rogue State', '反乱�
 # 【翻訳辞書】 Conflict of Nations Wiki準拠
 # =========================================================
 TRANSLATION_DICT = {
-    # --- 国名 (Countries) は既存のまま維持 ---
+    # --- 国名 (Countries) は長いカタカナは半角 ---
     'Great Britain': 'イギリス', 'United Kingdom': 'イギリス',
     'France': 'フランス', 'Germany': 'ドイツ', 'German Empire': 'ドイツ帝国',
     'Austria-Hungary': 'オーストリア=ハンガリー', 'Italy': 'イタリア',
@@ -39,11 +39,11 @@ TRANSLATION_DICT = {
     'West Africa': '西アフリカ', 'East Africa': '東アフリカ', 'South Africa': '南アフリカ',
     'Arabia': 'アラビア', 'Syria': 'シリア', 'Iraq': 'イラク', 'Persia': 'ペルシャ',
     'India': 'インド', 'United States': 'アメリカ', 'Canada': 'カナダ',
-    'Greenland': 'グリーンランド', 'Brazil': 'ブラジル', 'Argentina': 'アルゼンチン',
+    'Greenland': 'ｸﾞﾘｰﾝﾗﾝﾄﾞ', 'Brazil': 'ブラジル', 'Argentina': 'アルゼンチン',
     'Caucasus': 'カフカース', 'Kazakhstan': 'カザフスタン', 'Belarus': 'ベラルーシ',
-    'Balkan Union': 'バルカン連邦', 'Sudan': 'スーダン', 'Turkmenistan': 'トルクメニスタン',
+    'Balkan Union': 'ﾊﾞﾙｶﾝ連邦', 'Sudan': 'スーダン', 'Turkmenistan': 'ﾄﾙｸﾒﾆｽﾀﾝ',
     'Mongolia': 'モンゴル', 'China': '中国', 'Japan': '日本', 'Australia': 'オーストラリア',
-    'New Zealand': 'ニュージーランド', 'Philippines': 'フィリピン', 'Indonesia': 'インドネシア',
+    'New Zealand': 'ﾆｭｰｼﾞｰﾗﾝﾄﾞ', 'Philippines': 'フィリピン', 'Indonesia': 'インドネシア',
     'Myanmar': 'ミャンマー', 'Thailand': 'タイ', 'Vietnam': 'ベトナム',
     'North Korea': '北朝鮮', 'South Korea': '韓国', 'Colombia': 'コロンビア',
     'Venezuela': 'ベネズエラ', 'Peru': 'ペルー', 'Chile': 'チリ', 'Bolivia': 'ボリビア',
@@ -54,10 +54,10 @@ TRANSLATION_DICT = {
     'Motorized Infantry': '自動車化歩兵',
     'Mechanized Infantry': '機械化歩兵',
     'Naval Infantry': '海兵隊',
-    'Airborne Infantry': '空挺部隊', # Wiki表記に合わせ調整
+    'Airborne Infantry': '空挺歩兵', 
     'Special Forces': '特殊部隊',
     'National Guard': '州兵',
-    'Mercenaries': '傭兵',
+    'Mercenary': '傭兵',
 
     # --- 装甲車 (Armored) ---
     'Combat Recon Vehicle': '戦闘偵察車',
@@ -69,17 +69,17 @@ TRANSLATION_DICT = {
     # --- 支援 (Support) ---
     'Towed Artillery': '榴弾砲',
     'Mobile Artillery': '自走砲',
-    'Multiple Rocket Launcher': '多連装ロケットランチャー',
+    'Multiple Rocket Launcher': '多連装ﾛｹｯﾄﾗﾝﾁｬｰ',
     'Mobile Anti-Air Vehicle': '自走対空砲',
     'Mobile SAM Launcher': 'SAM',
-    'Theater Defense System': '戦域防衛システム',
-    'Mobile Radar': '移動式レーダー',
+    'Theater Defense System': '戦域防衛ｼｽﾃﾑ',
+    'Mobile Radar': '地上レーダー',
 
     # --- ヘリコプター (Helicopters) ---
-    'Helicopter Gunship': '武装ヘリコプター',
-    'Attack Helicopter': '攻撃ヘリコプター',
-    'ASW Helicopter': '対潜ヘリコプター',
-    'Transport Helicopter': '輸送ヘリコプター', # 稀に出現
+    'Helicopter Gunship': '武装ﾍﾘｺﾌﾟﾀｰ',
+    'Attack Helicopter': '攻撃ﾍﾘｺﾌﾟﾀｰ',
+    'ASW Helicopter': '対潜ﾍﾘｺﾌﾟﾀｰ',
+    'Transport Helicopter': '輸送ﾍﾘｺﾌﾟﾀｰ', 
 
     # --- 戦闘機 (Fighters) ---
     'Air Superiority Fighter': '制空戦闘機',
@@ -87,32 +87,35 @@ TRANSLATION_DICT = {
     'UAV': 'UAV',
     'Naval Patrol Aircraft': '哨戒機',
     'AWACS': '早期警戒管制機',
-    'Stealth Air Superiority Fighter': 'ステルス制空戦闘機',
-    'Stealth Strike Fighter': 'ステルス攻撃機',
+    'Stealth Air Superiority Fighter': 'ｽﾃﾙｽ制空',
+    'Stealth Strike Fighter': 'ｽﾃﾙｽ打撃',
 
     # --- 爆撃機 (Heavy) ---
     'Heavy Bomber': '重爆撃機',
-    'Stealth Bomber': 'ステルス爆撃機',
+    'Stealth Bomber': 'ｽﾃﾙｽ爆撃機',
 
     # --- 海軍 (Naval) ---
     'Corvette': 'コルベット',
-    'Frigate': 'フリゲート艦',
+    'Frigate': 'フリゲート',
     'Destroyer': '駆逐艦',
     'Cruiser': '巡洋艦',
     'Aircraft Carrier': '航空母艦',
     
     # --- 潜水艦 (Submarines) ---
     'Attack Submarine': '攻撃型潜水艦',
-    'Ballistic Missile Submarine': '弾道ミサイル潜水艦',
+    'Ballistic Missile Submarine': '弾道ﾐｻｲﾙ潜水艦',
 
     # --- 将校 (Officers) ---
     'Infantry Officer': '歩兵将校',
-    'Tank Commander': '戦車指揮官', # Wiki準拠で指揮官/将校を使い分け
-    'Air Ace': 'エースパイロット',
-    'Naval Officer': '海軍将校',
+    'Tank Commander': '戦車指揮官', 
+    'Air Ace': '空軍将校',
+    'Naval Veteran': '海軍将校',
     'Submarine Commander': '潜水艦指揮官',
-    'Rotor Commander': '回転翼機指揮官', # ヘリ指揮官
+    'Rotor Commander': '回転翼機指揮官', 
     
+    # --- シーズン ---
+    'Elite Satellite': '精鋭人工衛星', 'Elite Drone Operator': 'ﾄﾞﾛｰﾝｵﾍﾟﾚｰﾀｰ',
+
     # --- その他・キーワード (Keywords) ---
     'Division': '師団', 'Brigade': '旅団', 'Battalion': '大隊',
     'Regiment': '連隊', 'Squadron': '飛行隊', 'Flotilla': '戦隊',
@@ -197,7 +200,7 @@ for file_path in INPUT_FILES:
             # =========================================================
             # A. 損失データ (Casualties)
             # =========================================================
-            if "lost:" in text or "を失いました" in text:
+            if "lost" in text or "を失いました" in text:
                 country_links = p.find_all(class_='func_country_link')
                 raw_victim = country_links[0].get_text().strip() if country_links else "Unknown"
                 
@@ -207,9 +210,20 @@ for file_path in INPUT_FILES:
                 if raw_victim in EXCLUDED_COUNTRIES or victim_translated in EXCLUDED_COUNTRIES:
                     continue
 
-                match = re.search(r'(?:lost:|を失いました)\s*(\d+)\s*(.+)', text)
+                # コロンがあってもなくても抽出
+                match = re.search(r'(?:lost:?|を失いました)\s*(\d+)\s*(.+)', text)
                 if match:
-                    raw_unit = match.group(2).strip().strip(':').strip()
+                    # 兵種名のクリーニング
+                    raw_unit = match.group(2).strip()
+                    
+                    # 末尾のピリオドなどを除去
+                    if raw_unit.endswith('.'):
+                        raw_unit = raw_unit[:-1]
+                    
+                    # 【修正】 " over " が含まれていたら、それ以降（場所情報）をカット
+                    if " over " in raw_unit:
+                        raw_unit = raw_unit.split(" over ")[0]
+
                     # 兵種翻訳
                     unit_translated = translate(raw_unit)
 
@@ -231,7 +245,6 @@ for file_path in INPUT_FILES:
                 event_type = None
                 popup_desc = text
 
-                # キーワード設定 (英語 | 日本語)
                 key_destroyed = ["destroyed by", "により撃破されました", "壊滅しました"]
                 key_occupied = ["occupied", "を占領しました"]
 
@@ -286,10 +299,8 @@ for file_path in INPUT_FILES:
                             attacker_country = c_links[0].get_text().strip()
                             attacker_unit = "Occupying Force"
 
-                # 国名・兵種を日本語化
                 attacker_country_jp = translate(attacker_country)
                 
-                # 除外チェック
                 if attacker_country in EXCLUDED_COUNTRIES or attacker_country_jp in EXCLUDED_COUNTRIES:
                     continue
 
@@ -310,9 +321,9 @@ all_map_events.sort(key=lambda x: x['sort_key'])
 # ---------------------------------------------------------
 # 2. 集計レポート
 # ---------------------------------------------------------
-print("\n" + "="*60)
-print("【集計レポート (日本語翻訳済み)】")
-print("="*60)
+print("\n" + "="*45)
+print("【死亡ユニット集計レポート】")
+print("="*45)
 
 if all_casualties:
     df_cas = pd.DataFrame(all_casualties)
@@ -326,7 +337,7 @@ if all_casualties:
         print(summary_day.to_string(index=False))
 
     print("\n" + "-"*30)
-    print("【総合計 (Grand Total)】")
+    print("【総合計】")
     grand_summary = df_cas.groupby(['Country', 'Unit'])['Count'].sum().reset_index()
     grand_summary = grand_summary.sort_values(by=['Country', 'Count'], ascending=[True, False])
     print(grand_summary.to_string(index=False))
@@ -341,7 +352,7 @@ print("【地図生成】")
 print(f"イベント数: {len(all_map_events)}")
 print("座標取得中...")
 
-geolocator = Nominatim(user_agent="war_map_con_wiki_v1")
+geolocator = Nominatim(user_agent="war_map_con_wiki_v2")
 geocode = RateLimiter(geolocator.geocode, min_delay_seconds=1.1)
 location_cache = {}
 
