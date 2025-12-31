@@ -6,6 +6,7 @@ import folium
 from geopy.geocoders import Nominatim
 from geopy.extra.rate_limiter import RateLimiter
 import os
+import unicodedata
 
 # ---------------------------------------------------------
 # 設定
@@ -115,6 +116,8 @@ TRANSLATION_DICT = {
     
     # --- シーズン ---
     'Elite Satellite': '精鋭人工衛星', 'Elite Drone Operator': 'ﾄﾞﾛｰﾝｵﾍﾟﾚｰﾀｰ',
+    'Elite Attack Aircraft': "精鋭攻撃機", 'Elite Railgun':'レールガン',
+    'Elite AIP Submarine': '精鋭潜水艦',
 
     # --- その他・キーワード (Keywords) ---
     'Division': '師団', 'Brigade': '旅団', 'Battalion': '大隊',
@@ -148,7 +151,48 @@ def get_dynamic_color(country_name):
         color_index = len(country_color_map) % len(AVAILABLE_COLORS)
         country_color_map[country_name] = AVAILABLE_COLORS[color_index]
     return country_color_map[country_name]
+def get_display_width(text):
+    """文字列の表示幅を計算（全角2、半角1）"""
+    width = 0
+    for c in str(text):
+        if unicodedata.east_asian_width(c) in 'FWA':
+            width += 2
+        else:
+            width += 1
+    return width
 
+def print_aligned_table(df, cols):
+    """データフレームを日本語対応の左揃えで綺麗に出力する"""
+    if df.empty:
+        return
+
+    # 各列の最大幅を計算
+    col_widths = {}
+    for col in cols:
+        max_w = get_display_width(col)
+        for val in df[col]:
+            w = get_display_width(val)
+            if w > max_w:
+                max_w = w
+        col_widths[col] = max_w + 2  # 余裕を持たせる（2スペース）
+
+    # ヘッダー出力
+    header_line = ""
+    for col in cols:
+        val = str(col)
+        padding = col_widths[col] - get_display_width(val)
+        header_line += val + " " * padding
+    print(header_line)
+    print("-" * get_display_width(header_line))
+
+    # データ行出力
+    for _, row in df.iterrows():
+        line = ""
+        for col in cols:
+            val = str(row[col])
+            padding = col_widths[col] - get_display_width(val)
+            line += val + " " * padding
+        print(line)
 # ---------------------------------------------------------
 # 1. 解析とデータ抽出
 # ---------------------------------------------------------
@@ -290,9 +334,9 @@ all_map_events.sort(key=lambda x: x['sort_key'])
 # ---------------------------------------------------------
 # 2. 集計レポート
 # ---------------------------------------------------------
-print("\n" + "="*60)
-print("【集計レポート】")
-print("="*60)
+print("\n" + "="*30)
+print("【死亡数集計レポート】")
+print("="*30)
 
 if all_casualties:
     df_cas = pd.DataFrame(all_casualties)
@@ -302,13 +346,13 @@ if all_casualties:
         df_day = df_cas[df_cas['Day'] == day]
         summary_day = df_day.groupby(['Country', 'Unit'])['Count'].sum().reset_index()
         summary_day = summary_day.sort_values(by=['Country', 'Count'], ascending=[True, False])
-        print(summary_day.to_string(index=False))
+        print_aligned_table(summary_day, ['Country', 'Unit', 'Count'])
 
     print("\n" + "-"*30)
-    print("【総合計 (Grand Total)】")
+    print("【総合計】")
     grand_summary = df_cas.groupby(['Country', 'Unit'])['Count'].sum().reset_index()
     grand_summary = grand_summary.sort_values(by=['Country', 'Count'], ascending=[True, False])
-    print(grand_summary.to_string(index=False))
+    print_aligned_table(grand_summary, ['Country', 'Unit', 'Count'])
 else:
     print("損失データなし")
 
