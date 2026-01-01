@@ -25,7 +25,7 @@ EXCLUDED_COUNTRIES = ['Undead', 'アンデッド', 'AI', 'Rogue State', '反乱�
 # 【翻訳辞書】 Conflict of Nations Wiki準拠
 # =========================================================
 TRANSLATION_DICT = {
-    # --- 国名 (Countries) は長いカタカナは半角 ---
+    # --- 国名 ---
     'Great Britain': 'イギリス', 'United Kingdom': 'イギリス',
     'France': 'フランス', 'Germany': 'ドイツ', 'German Empire': 'ドイツ帝国',
     'Austria-Hungary': 'オーストリア=ハンガリー', 'Italy': 'イタリア',
@@ -52,85 +52,60 @@ TRANSLATION_DICT = {
     'North Korea': '北朝鮮', 'South Korea': '韓国', 'Colombia': 'コロンビア',
     'Venezuela': 'ベネズエラ', 'Peru': 'ペルー', 'Chile': 'チリ', 'Bolivia': 'ボリビア',
     'Mexico': 'メキシコ', 'Cuba': 'キューバ', 'DR Congo': "コンゴ", 'Cambodia': 'カンボジア',
-    'Korea': '朝鮮', 'Uruguay': 'ウルグアイ',
+    'Korea': '朝鮮', 'Uruguay': 'ウルグアイ', "Uzbekistan":"ウズベキスタン",
 
-    # --- 歩兵 (Infantry) ---
-    'Motorized Infantry': '自動車化歩兵',
-    'Mechanized Infantry': '機械化歩兵',
-    'Naval Infantry': '海兵隊',
-    'Airborne Infantry': '空挺歩兵', 
-    'Special Forces': '特殊部隊',
-    'National Guard': '州兵',
-    'Mercenary': '傭兵',
+    # --- 歩兵 ---
+    'Motorized Infantry': '自動車化歩兵', 'Mechanized Infantry': '機械化歩兵',
+    'Naval Infantry': '海兵隊', 'Airborne Infantry': '空挺歩兵', 
+    'Special Forces': '特殊部隊', 'National Guard': '州兵', 'Mercenary': '傭兵',
 
-    # --- 装甲車 (Armored) ---
-    'Combat Recon Vehicle': '戦闘偵察車',
-    'Armored Fighting Vehicle': '装甲戦闘車',
-    'Amphibious Combat Vehicle': '水陸両用戦闘車',
-    'Main Battle Tank': '主力戦車',
+    # --- 装甲車 ---
+    'Combat Recon Vehicle': '戦闘偵察車', 'Armored Fighting Vehicle': '装甲戦闘車',
+    'Amphibious Combat Vehicle': '水陸両用戦闘車', 'Main Battle Tank': '主力戦車',
     'Tank Destroyer': '駆逐戦車',
     
-    # --- 支援 (Support) ---
-    'Towed Artillery': '榴弾砲',
-    'Mobile Artillery': '自走砲',
+    # --- 支援 ---
+    'Towed Artillery': '榴弾砲', 'Mobile Artillery': '自走砲',
     'Multiple Rocket Launcher': '多連装ﾛｹｯﾄﾗﾝﾁｬｰ',
-    'Mobile Anti-Air Vehicle': '自走対空砲',
-    'Mobile SAM Launcher': 'SAM',
-    'Theater Defense System': '戦域防衛ｼｽﾃﾑ',
-    'Mobile Radar': '地上レーダー',
+    'Mobile Anti-Air Vehicle': '自走対空砲', 'Mobile SAM Launcher': 'SAM',
+    'Theater Defense System': '戦域防衛ｼｽﾃﾑ', 'Mobile Radar': '地上レーダー',
 
-    # --- ヘリコプター (Helicopters) ---
-    'Helicopter Gunship': '武装ﾍﾘｺﾌﾟﾀｰ',
-    'Attack Helicopter': '攻撃ﾍﾘｺﾌﾟﾀｰ',
-    'ASW Helicopter': '対潜ﾍﾘｺﾌﾟﾀｰ',
-    'Transport Helicopter': '輸送ﾍﾘｺﾌﾟﾀｰ', 
+    # --- ヘリ ---
+    'Helicopter Gunship': '武装ﾍﾘｺﾌﾟﾀｰ', 'Attack Helicopter': '攻撃ﾍﾘｺﾌﾟﾀｰ',
+    'ASW Helicopter': '対潜ﾍﾘｺﾌﾟﾀｰ', 'Transport Helicopter': '輸送ﾍﾘｺﾌﾟﾀｰ', 
 
-    # --- 戦闘機 (Fighters) ---
-    'Air Superiority Fighter': '制空戦闘機',
-    'Strike Fighter': '打撃戦闘機',
-    'UAV': 'UAV',
-    'Naval Patrol Aircraft': '哨戒機',
-    'AWACS': '早期警戒管制機',
-    'Stealth Air Superiority Fighter': 'ｽﾃﾙｽ制空',
-    'Stealth Strike Fighter': 'ｽﾃﾙｽ打撃',
+    # --- 戦闘機 ---
+    'Air Superiority Fighter': '制空戦闘機', 'Strike Fighter': '打撃戦闘機',
+    'UAV': 'UAV', 'Naval Patrol Aircraft': '哨戒機', 'AWACS': '早期警戒管制機',
+    'Stealth Air Superiority Fighter': 'ｽﾃﾙｽ制空', 'Stealth Strike Fighter': 'ｽﾃﾙｽ打撃',
 
-    # --- 爆撃機 (Heavy) ---
-    'Heavy Bomber': '重爆撃機',
-    'Stealth Bomber': 'ｽﾃﾙｽ爆撃機',
+    # --- 爆撃機 ---
+    'Heavy Bomber': '重爆撃機', 'Stealth Bomber': 'ｽﾃﾙｽ爆撃機',
 
-    # --- 海軍 (Naval) ---
-    'Corvette': 'コルベット',
-    'Frigate': 'フリゲート',
-    'Destroyer': '駆逐艦',
-    'Cruiser': '巡洋艦',
-    'Aircraft Carrier': '航空母艦',
+    # --- 海軍 ---
+    'Corvette': 'コルベット', 'Frigate': 'フリゲート', 'Destroyer': '駆逐艦',
+    'Cruiser': '巡洋艦', 'Aircraft Carrier': '航空母艦',
     
-    # --- 潜水艦 (Submarines) ---
-    'Attack Submarine': '攻撃型潜水艦',
-    'Ballistic Missile Submarine': '弾道ﾐｻｲﾙ潜水艦',
+    # --- 潜水艦 ---
+    'Attack Submarine': '攻撃型潜水艦', 'Ballistic Missile Submarine': '弾道ﾐｻｲﾙ潜水艦',
 
-    # --- 将校 (Officers) ---
-    'Infantry Officer': '歩兵将校',
-    'Tank Commander': '戦車指揮官', 
-    'Air Ace': '空軍将校',
-    'Naval Veteran': '海軍将校',
-    'Submarine Commander': '潜水艦指揮官',
-    'Rotor Commander': '回転翼機指揮官', 
+    # --- 将校 ---
+    'Infantry Veteran': '歩兵将校', 'Tank Commander': '戦車指揮官', 
+    'Air Ace': '空軍将校', 'Naval Veteran': '海軍将校',
+    'Submarine Commander': '潜水艦指揮官', 'Rotor Commander': '回転翼機指揮官', 
     
-    # --- シーズン ---
+    # --- その他 ---
     'Elite Satellite': '精鋭人工衛星', 'Elite Drone Operator': 'ﾄﾞﾛｰﾝｵﾍﾟﾚｰﾀｰ',
     'Elite Attack Aircraft': "精鋭攻撃機", 'Elite Railgun':'レールガン',
     'Elite AIP Submarine': '精鋭潜水艦',
-
-    # --- その他・キーワード (Keywords) ---
     'Division': '師団', 'Brigade': '旅団', 'Battalion': '大隊',
     'Regiment': '連隊', 'Squadron': '飛行隊', 'Flotilla': '戦隊',
-    'Wing': '航空団', 'Group': '軍集団',
-    'Unit': '部隊', 'Army': '軍',
-    'Missile': 'ミサイル', 'Warhead': '弾頭',
+    'Wing': '航空団', 'Group': '軍集団', 'Unit': '部隊', 'Army': '軍',
+    'Missile': 'ﾐｻｲﾙ', 'Warhead': '弾頭',
     'Conventional': '通常', 'Chemical': '化学', 'Nuclear': '核',
     'ICBM': 'ICBM', 'Cruise': '巡航', 'Ballistic':"弾道",
 }
+
 def translate(text):
     if not text: return text
     if text in TRANSLATION_DICT:
@@ -154,8 +129,9 @@ def get_dynamic_color(country_name):
         color_index = len(country_color_map) % len(AVAILABLE_COLORS)
         country_color_map[country_name] = AVAILABLE_COLORS[color_index]
     return country_color_map[country_name]
+
 def get_display_width(text):
-    """文字列の表示幅を計算（全角2、半角1）"""
+    """文字列の表示幅を計算（全角2、半角1） ※今回は使わないが互換性のため残存"""
     width = 0
     for c in str(text):
         if unicodedata.east_asian_width(c) in 'FWA':
@@ -165,37 +141,33 @@ def get_display_width(text):
     return width
 
 def print_aligned_table(df, cols):
-    """データフレームを日本語対応の左揃えで綺麗に出力する"""
+    """
+    LINEなどのチャットアプリ用に、表形式ではなくリスト形式で出力する。
+    スマホのプロポーショナルフォントでも崩れず見やすくなります。
+    """
     if df.empty:
         return
 
-    # 各列の最大幅を計算
-    col_widths = {}
-    for col in cols:
-        max_w = get_display_width(col)
-        for val in df[col]:
-            w = get_display_width(val)
-            if w > max_w:
-                max_w = w
-        col_widths[col] = max_w + 2  # 余裕を持たせる（2スペース）
-
-    # ヘッダー出力
-    header_line = ""
-    for col in cols:
-        val = str(col)
-        padding = col_widths[col] - get_display_width(val)
-        header_line += val + " " * padding
-    print(header_line)
-    print("-" * get_display_width(header_line))
-
-    # データ行出力
+    # 国名でグルーピングして出力する
+    # dfは呼び出し元ですでにソートされている前提 (Country, Count順)
+    current_country = None
+    
     for _, row in df.iterrows():
-        line = ""
-        for col in cols:
-            val = str(row[col])
-            padding = col_widths[col] - get_display_width(val)
-            line += val + " " * padding
-        print(line)
+        country = str(row[cols[0]]) # Country
+        unit = str(row[cols[1]])    # Unit
+        count = str(row[cols[2]])   # Count
+        
+        # 国名が変わったら見出しを表示
+        if country != current_country:
+            # 視認性を高めるため、2カ国目以降は上に空行を入れる
+            prefix = "\n" if current_country is not None else ""
+            print(f"{prefix}■ {country}")
+            current_country = country
+        
+        # ユニットと数を表示
+        # インデントに全角スペースを使うと、日本語環境では比較的揃って見えやすい
+        print(f"　{unit}: {count}")
+
 # ---------------------------------------------------------
 # 1. 解析とデータ抽出
 # ---------------------------------------------------------
@@ -251,7 +223,6 @@ for file_path in INPUT_FILES:
                 if match:
                     raw_unit = match.group(2).strip()
                     if raw_unit.endswith('.'): raw_unit = raw_unit[:-1]
-                    # 【over除去】
                     if " over " in raw_unit:
                         raw_unit = raw_unit.split(" over ")[0]
 
@@ -360,14 +331,14 @@ else:
     print("損失データなし")
 
 # ---------------------------------------------------------
-# 3. 地図生成 (レイヤー機能追加版)
+# 3. 地図生成
 # ---------------------------------------------------------
 print("\n" + "="*60)
 print("【地図生成】")
 print(f"イベント数: {len(all_map_events)}")
 print("座標取得中...")
 
-geolocator = Nominatim(user_agent="war_map_interactive_v1")
+geolocator = Nominatim(user_agent="war_map_interactive_v2")
 geocode = RateLimiter(geolocator.geocode, min_delay_seconds=1.1)
 location_cache = {}
 
@@ -385,16 +356,12 @@ def get_lat_lon(loc_name):
     except:
         return None
 
-# ユニークな場所検索
 unique_locations = set(e['location'] for e in all_map_events)
 for loc in unique_locations:
     get_lat_lon(loc)
 
 m = folium.Map(location=[35.0, 20.0], zoom_start=3)
-
-# 国ごとのレイヤーグループを作成
-country_layers = {}  # { 'CountryName': FeatureGroup }
-
+country_layers = {} 
 unit_paths = {}
 
 for event in all_map_events:
@@ -404,19 +371,16 @@ for event in all_map_events:
     country_name = event['country']
     current_color = get_dynamic_color(country_name)
 
-    # レイヤーグループがなければ作成して地図に追加
     if country_name not in country_layers:
         fg = folium.FeatureGroup(name=country_name)
         country_layers[country_name] = fg
         fg.add_to(m)
     
-    # ユニット経路データ蓄積
     unit_id = f"{event['unit_name']} ({country_name})"
     if unit_id not in unit_paths:
         unit_paths[unit_id] = {'coords': [], 'color': current_color, 'country': country_name}
     unit_paths[unit_id]['coords'].append(coords)
     
-    # ピンは対応する国のレイヤーに追加
     if event['type'] == 'combat':
         popup_content = f"""
         <div style="width:250px; font-family:sans-serif;">
@@ -431,11 +395,9 @@ for event in all_map_events:
             icon=folium.Icon(color=current_color, icon='crosshairs', prefix='fa')
         ).add_to(country_layers[country_name])
 
-# 線の描画 (対応する国のレイヤーに追加)
 for unit_id, data in unit_paths.items():
     points = data['coords']
     c_name = data['country']
-    
     if len(points) > 1 and c_name in country_layers:
         folium.PolyLine(
             locations=points,
@@ -444,15 +406,11 @@ for unit_id, data in unit_paths.items():
             opacity=0.7,
             tooltip=unit_id
         ).add_to(country_layers[c_name])
-        
         folium.CircleMarker(points[0], radius=3, color=data['color'], fill=True).add_to(country_layers[c_name])
         folium.CircleMarker(points[-1], radius=3, color=data['color'], fill=True).add_to(country_layers[c_name])
 
-# レイヤーコントロール (右上メニュー) を追加
-# これにより、ユーザーは国ごとに表示/非表示を切り替えられます
 folium.LayerControl().add_to(m)
 
-# 凡例 (左下の固定表示)
 legend_html = '''
      <div style="position: fixed; 
      bottom: 30px; left: 30px; width: 160px; height: auto; 
