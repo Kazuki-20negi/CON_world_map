@@ -129,7 +129,7 @@ TRANSLATION_DICT = {
     'Unit': '部隊', 'Army': '軍',
     'Missile': 'ミサイル', 'Warhead': '弾頭',
     'Conventional': '通常', 'Chemical': '化学', 'Nuclear': '核',
-    'ICBM': 'ICBM', 'Cruise': '巡航'
+    'ICBM': 'ICBM', 'Cruise': '巡航', 'Ballistic':"弾道",
 }
 def translate(text):
     if not text: return text
