@@ -12,7 +12,10 @@ import unicodedata
 # 設定
 # ---------------------------------------------------------
 # 解析したいファイル名をリストに追加してください
-INPUT_FILES = ['test.html', "test2.html", "test3.html", "test4.html"]
+INPUT_FILES = [
+                'test.html', "test2.html", "test3.html", "test30.html",
+                "test31.html", "test32.html", "test33.html",
+               ]
 OUTPUT_MAP = 'war_map_con_wiki.html'
 
 # 除外リスト
