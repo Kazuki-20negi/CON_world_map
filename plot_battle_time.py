@@ -16,6 +16,7 @@ import math
 # 1. 絞り込みたい攻撃側の国名 (ログ内の表記と一致させる必要があります)
 #    例: 'Germany', 'Romania', 'Saudi Arabia', 'ドイツ' など
 TARGET_ATTACKER_COUNTRY = 'Sudan'
+#Iraq  Egypt  Sudan
 
 # 2. ゲームスピード (1倍速なら 1, 4倍速なら 4)
 GAME_SPEED = 4
