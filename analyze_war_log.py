@@ -22,7 +22,7 @@ INPUT_FILES = glob.glob(files_path)
 OUTPUT_MAP = 'war_map_con_wiki.html'
 
 # 除外リスト
-EXCLUDED_COUNTRIES = ['Undead', 'アンデッド', 'AI', 'Rogue State', '反乱軍']
+EXCLUDED_COUNTRIES = ['Undead', 'アンデッド', 'AI', 'Rogue State', '反乱軍', "Insurgencies"]
 
 # =========================================================
 # 【翻訳辞書】 Conflict of Nations Wiki準拠
@@ -55,7 +55,8 @@ TRANSLATION_DICT = {
     'North Korea': '北朝鮮', 'South Korea': '韓国', 'Colombia': 'コロンビア',
     'Venezuela': 'ベネズエラ', 'Peru': 'ペルー', 'Chile': 'チリ', 'Bolivia': 'ボリビア',
     'Mexico': 'メキシコ', 'Cuba': 'キューバ', 'DR Congo': "コンゴ", 'Cambodia': 'カンボジア',
-    'Korea': '朝鮮', 'Uruguay': 'ウルグアイ', "Uzbekistan":"ウズベキスタン",
+    'Korea': '朝鮮', 'Uruguay': 'ウルグアイ', "Uzbekistan":"ウズベキスタン", "Mauritania":"モーリタニア",
+    "Patagonia":"パタゴニア", "Nigeria":"ナイジェリア",
 
     # --- 歩兵 ---
     'Motorized Infantry': '自動車化歩兵', 'Mechanized Infantry': '機械化歩兵',
