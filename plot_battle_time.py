@@ -15,7 +15,7 @@ import math
 
 # 1. 絞り込みたい攻撃側の国名 (ログ内の表記と一致させる必要があります)
 #    例: 'Germany', 'Romania', 'Saudi Arabia', 'ドイツ' など
-TARGET_ATTACKER_COUNTRY = 'Iraq'
+TARGET_ATTACKER_COUNTRY = 'Sudan'
 
 # 2. ゲームスピード (1倍速なら 1, 4倍速なら 4)
 GAME_SPEED = 4
@@ -185,7 +185,7 @@ def main():
     
     plt.scatter(hours_of_day, y_values, alpha=0.5, color='red', label='Combat Event')
     
-    plt.title(f"Activity Time: {TARGET_ATTACKER_COUNTRY} (Excluding: {', '.join(EXCLUDED_VICTIM_COUNTRIES)})")
+    plt.title(f"Activity Time: {TARGET_ATTACKER_COUNTRY}")
     plt.xlabel("Hour of Day (Real Time)")
     plt.ylabel("Events")
     
@@ -195,9 +195,6 @@ def main():
     plt.grid(True, which='both', axis='x', linestyle='--', alpha=0.7)
 
     plt.tight_layout()
-    output_img = "combat_time_distribution_filtered.png"
-    plt.savefig(output_img)
-    print(f"グラフを保存しました: {output_img}")
     plt.show()
 
 if __name__ == "__main__":
