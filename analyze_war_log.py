@@ -6,16 +6,19 @@ import folium
 from geopy.geocoders import Nominatim
 from geopy.extra.rate_limiter import RateLimiter
 import os
+import glob
 import unicodedata
 
-# ---------------------------------------------------------
+# -----------------------------------
 # 設定
-# ---------------------------------------------------------
-# 解析したいファイル名をリストに追加してください
-INPUT_FILES = [
-                'test.html', "test2.html", "test3.html", "test30.html",
-                "test31.html", "test32.html", "test33.html",
-               ]
+# -----------------------------------
+# 1. 解析したいファイルが入っているフォルダを指定してください
+# (同じ階層にある場合は '.' 、別のフォルダなら 'data/files' などを指定)
+TARGET_DIR = "data" 
+FILE_PATTERN = "*.html"
+files_path = os.path.join(TARGET_DIR, FILE_PATTERN)
+INPUT_FILES = glob.glob(files_path)
+
 OUTPUT_MAP = 'war_map_con_wiki.html'
 
 # 除外リスト
