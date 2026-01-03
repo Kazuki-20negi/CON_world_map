@@ -1,100 +1,118 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 class GameTimeVerifier:
     def __init__(self):
         self.data_points = []
+        self.TARGET_SPEED = 4.0  # 想定している倍率
 
     def _game_time_to_seconds(self, day, time_str):
-        """
-        ゲーム内の「日数」と「時刻」を、0日目0時からの総秒数に変換します。
-        1日 = 24時間 = 86400秒 と仮定します。
-        """
+        """ ゲーム内日時（日数+時刻）を総秒数に変換 """
         try:
-            # 時刻文字列 (HH:MM または HH:MM:SS) を分解
             parts = list(map(int, time_str.split(':')))
             h = parts[0]
             m = parts[1]
             s = parts[2] if len(parts) > 2 else 0
-            
-            # 総秒数計算
-            total_seconds = (day * 86400) + (h * 3600) + (m * 60) + s
-            return total_seconds
+            return (day * 86400) + (h * 3600) + (m * 60) + s
         except Exception as e:
-            print(f"エラー: ゲーム時刻の変換に失敗しました ({day}日目 {time_str}) -> {e}")
+            print(f"変換エラー: {day}日 {time_str} -> {e}")
             return None
 
+    def _format_seconds_to_time(self, seconds):
+        """ 秒数を「D日 HH:MM:SS」形式の文字列に変換 """
+        is_negative = seconds < 0
+        seconds = abs(int(seconds))
+        
+        d = seconds // 86400
+        h = (seconds % 86400) // 3600
+        m = (seconds % 3600) // 60
+        s = seconds % 60
+        
+        sign = "-" if is_negative else "+"
+        if d > 0:
+            return f"{sign}{d}日 {h:02}:{m:02}:{s:02}"
+        else:
+            return f"{sign}{h:02}:{m:02}:{s:02}"
+
     def add_point(self, real_time_str, game_day, game_time_str):
-        """
-        データを追加します。
-        real_time_str: 現実の日時 '2023-10-27 10:00:00'
-        game_day     : ゲーム内の日数 (int) 例: 30
-        game_time_str: ゲーム内の時刻 (str) 例: '14:30' または '14:30:00'
-        """
+        """ 測定データを追加 """
         fmt = "%Y-%m-%d %H:%M:%S"
         try:
             r_time = datetime.strptime(real_time_str, fmt)
-            g_total_seconds = self._game_time_to_seconds(game_day, game_time_str)
+            g_seconds = self._game_time_to_seconds(game_day, game_time_str)
             
-            if g_total_seconds is not None:
+            if g_seconds is not None:
                 self.data_points.append({
-                    'real': r_time, 
-                    'game_seconds': g_total_seconds,
-                    'label': f"{game_day}日目 {game_time_str}" # 表示用
+                    'real': r_time,
+                    'game_seconds': g_seconds,
+                    'label_day': game_day,
+                    'label_time': game_time_str
                 })
         except ValueError as e:
-            print(f"エラー: 現実日時のフォーマットが正しくありません。 {e}")
+            print(f"日時フォーマットエラー: {e}")
 
     def verify(self):
-        if len(self.data_points) < 2:
-            print("検証には少なくとも2つのデータセットが必要です。")
+        if not self.data_points:
+            print("データがありません。")
             return
 
-        # 現実時間順にソート
+        # 日時順にソート
         sorted_points = sorted(self.data_points, key=lambda x: x['real'])
         
-        print(f"{'='*70}")
-        print(f"{'区間':^6} | {'現実経過':^10} | {'ゲーム内経過':^14} | {'倍率':^10}")
-        print(f"{'-'*70}")
-
-        total_real_delta = 0
-        total_game_delta = 0
+        # 最初のデータを基準点（スタート）とする
+        start_point = sorted_points[0]
         
-        for i in range(1, len(sorted_points)):
-            prev = sorted_points[i-1]
-            curr = sorted_points[i]
+        print(f"{'='*85}")
+        print(f" 基準点: 現実 {start_point['real']} | ゲーム {start_point['label_day']}日目 {start_point['label_time']}")
+        print(f"{'='*85}")
+        print(f"{'現実時刻':^20} | {'ゲーム現在時刻':^16} | {'本来あるべき時刻':^16} | {'ズレ (実際-本来)':^18}")
+        print(f"{'-'*85}")
 
-            # 現実時間の差（秒）
-            delta_real = (curr['real'] - prev['real']).total_seconds()
+        for i, point in enumerate(sorted_points):
+            # 基準点からの現実経過時間（秒）
+            real_elapsed = (point['real'] - start_point['real']).total_seconds()
             
-            # ゲーム内時間の差（秒）
-            delta_game = curr['game_seconds'] - prev['game_seconds']
-
-            if delta_real == 0:
-                print(f"区間 {i}: エラー (現実時間が経過していません)")
-                continue
-
-            ratio = delta_game / delta_real
+            # 本来進んでいるはずのゲーム内秒数 (現実経過 * 4倍)
+            expected_progress = real_elapsed * self.TARGET_SPEED
             
-            # 表示用（分換算）
-            r_min = delta_real / 60
-            g_min = delta_game / 60
+            # 本来あるべきゲーム内の総秒数
+            expected_game_total = start_point['game_seconds'] + expected_progress
             
-            print(f"#{i:<5} | {r_min:>7.1f} 分 | {g_min:>8.1f} 分 (約{g_min/60:.1f}h)| {ratio:>8.2f}倍")
-
-            total_real_delta += delta_real
-            total_game_delta += delta_game
-
-        if total_real_delta > 0:
-            avg_ratio = total_game_delta / total_real_delta
-            print(f"{'='*70}")
-            print(f"【全体平均倍率】: {avg_ratio:.4f}倍")
+            # 実際のゲーム内の総秒数
+            actual_game_total = point['game_seconds']
             
-            diff = abs(4.0 - avg_ratio)
-            if diff < 0.1:
-                print(">> 判定: おおむね「4倍速」です。")
+            # 差分計算 (実際 - 本来)
+            diff_seconds = actual_game_total - expected_game_total
+            
+            # --- 表示用データの作成 ---
+            
+            # 本来あるべき時刻の文字列化
+            exp_day = int(expected_game_total // 86400)
+            exp_rem = int(expected_game_total % 86400)
+            exp_h = exp_rem // 3600
+            exp_m = (exp_rem % 3600) // 60
+            exp_s = exp_rem % 60
+            expected_str = f"{exp_day}日 {exp_h:02}:{exp_m:02}" # 秒は省略
+
+            # 実際の時刻文字列
+            actual_str = f"{point['label_day']}日 {point['label_time'][:5]}" # 秒は省略
+
+            # ズレのフォーマット
+            diff_str = self._format_seconds_to_time(diff_seconds)
+            
+            # 基準点（0行目）はズレなしなので別表記でも良いが、そのまま0表示
+            if i == 0:
+                print(f"{str(point['real'])[5:-3]:^20} | {actual_str:^18} | {'(基準点)':^18} | {'00:00:00':^18}")
             else:
-                print(f">> 判定: 4倍速から {diff:.4f} ズレています。")
-        print(f"{'='*70}")
+                # 判定コメント（遅れが大きい場合など）
+                status = ""
+                if diff_seconds < -60: status = " (遅延)"
+                elif diff_seconds > 60: status = " (進行過多)"
+                
+                print(f"{str(point['real'])[5:-3]:^20} | {actual_str:^18} | {expected_str:^18} | {diff_str:<10}{status}")
+
+        print(f"{'='*85}")
+        print(" ※ マイナス(-) はゲーム内時間が遅れている（ラグ等）ことを示します。")
+        print(" ※ プラス(+) はゲーム内時間が進みすぎていることを示します。")
 
 # --- 実行部分 ---
 
@@ -103,14 +121,20 @@ verifier = GameTimeVerifier()
 # 使い方:
 # verifier.add_point('現実の日時', ゲーム内日数, 'ゲーム内時刻')
 
-# 例: 現実の10:00に、ゲーム内は 30日目の 06:00 だった
-verifier.add_point('2026-01-02 00:11:00', 37, '23:57:00')
+#verifier.add_point('2026-01-02 00:11:00', 37, '23:57:00')
 
-# 例: 現実で1時間経過(11:00)。ゲーム内は4時間進んで 30日目の 10:00 になるはず
+verifier.add_point("2025-12-30 21:31:00", 25, "14:16:00")
+
+verifier.add_point("2025-12-31 20:27:00", 29, "09:03:00")
+
+verifier.add_point("2026-01-01 02:36:00", 30, "09:36:00")
+
+verifier.add_point("2026-01-01 16:19:00", 32, "17:27:00")
+
 verifier.add_point('2026-01-03 14:42:00', 40, '11:02:00')
 
-# 例: 現実でさらに1日経過(翌日11:00)。
-# 4倍速ならゲーム内は4日進んで、34日目の 10:00 になっているはず
-#verifier.add_point('2024-01-02 11:00:00', 34, '10:00:00')
+verifier.add_point("2026-01-03 14:47:00", 40, "11:21:00")
+
+verifier.add_point('2026-01-03 14:52:00', 40, '11:41:00')
 
 verifier.verify()
