@@ -2,12 +2,11 @@ import bs4
 from bs4 import BeautifulSoup
 import re
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 import numpy as np
-from scipy import stats
 from datetime import datetime, timedelta
 import os
 import glob
-import math
 
 # =========================================================
 # [ユーザー設定エリア]
@@ -16,7 +15,7 @@ import math
 
 # 1. 絞り込みたい攻撃側の国名 (ログ内の表記と一致させる必要があります)
 #    例: 'Germany', 'Romania', 'Saudi Arabia', 'ドイツ' など
-TARGET_ATTACKER_COUNTRY = 'Egypt'
+TARGET_ATTACKER_COUNTRY = 'Sudan'
 #Iraq  Egypt  Sudan
 
 # 2. ゲームスピード (1倍速なら 1, 4倍速なら 4)
@@ -37,6 +36,7 @@ FILE_PATTERN = "*.html"
 #    攻撃対象がここに該当する場合はプロットしません
 EXCLUDED_VICTIM_COUNTRIES = ['Undead', 'アンデッド', 'Rogue State', '反乱軍']
 
+# =========================================================
 # =========================================================
 # =========================================================
 # =========================================================
@@ -117,6 +117,9 @@ def load_data():
                             g_time_str = f"{g_h}:{g_m}:{g_s}"
                             real_dt = get_real_time_from_game_time(g_day, g_time_str, ref_real_dt, ref_game_total_sec, GAME_SPEED)
                             if real_dt: combat_times.append(real_dt)
+    
+    # 時系列順にソートしておく
+    combat_times.sort()
     return combat_times
 
 def analyze_and_plot(combat_times):
@@ -128,76 +131,52 @@ def analyze_and_plot(combat_times):
     hours = np.array([t.hour + t.minute/60.0 + t.second/3600.0 for t in combat_times])
     n = len(hours)
 
-    # -----------------------------------------------------
-    # 1. 円統計 (Circular Statistics)
-    # -----------------------------------------------------
-    # 時間を角度 (0 ~ 2π) に変換して平均ベクトルを計算
-    angles = hours * (2 * np.pi / 24)
-    sin_sum = np.sum(np.sin(angles))
-    cos_sum = np.sum(np.cos(angles))
-    
-    # 平均角度
-    mean_angle = np.arctan2(sin_sum, cos_sum)
-    if mean_angle < 0: mean_angle += 2 * np.pi
-    
-    # 平均時刻に変換し直す
-    mean_hour = mean_angle * (24 / (2 * np.pi))
-    mean_time_str = f"{int(mean_hour)}:{int((mean_hour%1)*60):02d}"
-    
-    # 集中度 R (0:バラバラ ~ 1:一点集中)
-    R = np.sqrt(sin_sum**2 + cos_sum**2) / n
-
-    # -----------------------------------------------------
-    # 2. KDE (Kernel Density Estimation)
-    # -----------------------------------------------------
-    # 0時またぎを綺麗に描画するため、データを[-24h, 0h, +24h]の範囲に拡張して推定させる
-    hours_extended = np.concatenate([hours - 24, hours, hours + 24])
-    
-    # 密度推定 (データ数が少ないため bw_method='silverman' を使用)
-    kde = stats.gaussian_kde(hours_extended, bw_method='silverman')
-    
-    # 0～24時の範囲で評価
-    x_grid = np.linspace(0, 24, 200)
-    kde_values = kde(x_grid)
-    
-    # ピーク時刻 (最も密度が高い時間)
-    peak_idx = np.argmax(kde_values)
-    peak_hour = x_grid[peak_idx]
-    peak_time_str = f"{int(peak_hour)}:{int((peak_hour%1)*60):02d}"
-
-    # -----------------------------------------------------
-    # 結果表示
-    # -----------------------------------------------------
     print("\n" + "="*40)
-    print("【アクティブ時間帯 推定結果】")
+    print("【アクティブ時間帯 時系列フロー解析】")
     print("="*40)
-    print(f"サンプル数      : {n}")
-    print(f"平均活動時刻    : {mean_time_str} (Circular Mean)")
-    print(f"活動の集中度(R) : {R:.3f} (0=散乱, 1=集中)")
-    print(f"推定ピーク時刻  : {peak_time_str} (最も確率が高い時間)")
+    print(f"サンプル数 : {n}")
+    print(f"期間       : {combat_times[0].strftime('%Y-%m-%d %H:%M')} ~ {combat_times[-1].strftime('%Y-%m-%d %H:%M')}")
     print("-" * 40)
 
-    # プロット
-    plt.figure(figsize=(10, 6))
-    
-    # ヒストグラム (実データ)
-    plt.hist(hours, bins=24, range=(0, 24), density=True, alpha=0.3, color='gray', label='Raw Data (Hist)')
-    
-    # KDE曲線 (推定された傾向)
-    # ※3倍データで学習しているためスケーリング補正して表示
-    plt.plot(x_grid, kde_values * 3, color='blue', linewidth=2, label='Estimated Trend (KDE)')
-    
-    # 平均時刻ライン
-    plt.axvline(mean_hour, color='red', linestyle='--', linewidth=2, label=f'Mean: {mean_time_str}')
-    
-    plt.xlim(0, 24)
-    plt.xticks(np.arange(0, 25, 1))
-    plt.xlabel('Hour of Day (Real Time)')
-    plt.ylabel('Activity Density')
-    plt.title(f'Active Time Analysis: {TARGET_ATTACKER_COUNTRY} (n={n})')
-    plt.legend()
-    plt.grid(True, alpha=0.5)
+    # グラフ描画設定
+    fig, ax1 = plt.subplots(figsize=(10, 8))
 
+    # --- 1. 背景ヒストグラム (右軸: 頻度) ---
+    ax2 = ax1.twinx()
+    ax2.hist(hours, bins=24, range=(0, 24), color='gray', alpha=0.15, edgecolor='none', label='Total Frequency')
+    ax2.set_ylabel('Event Frequency (Histogram)', color='gray')
+    ax2.tick_params(axis='y', labelcolor='gray')
+    # ヒストグラムの上限を少し余裕持たせて、散布図の邪魔にならないようにする
+    ax2.set_ylim(0, ax2.get_ylim()[1] * 1.2)
+
+    # --- 2. 時系列散布図 (左軸: 日付) ---
+    # Y軸を日付にするため、plot_dateやscatterを使うが、単純なscatterだと数値扱いになるので注意が必要
+    # matplotlibでは日付を内部的にfloatで扱っているため、そのまま渡してyaxis_date()でフォーマットする
+    
+    ax1.scatter(hours, combat_times, color='red', s=50, alpha=0.8, edgecolors='black', label='Combat Event')
+    
+    # Y軸を日付フォーマットに設定
+    ax1.yaxis_date()
+    date_format = mdates.DateFormatter('%m/%d') # 月/日 (必要なら %H:%M も追加可)
+    ax1.yaxis.set_major_formatter(date_format)
+    
+    # 「上が古いデータ、下が新しいデータ」にするためY軸を反転
+    # 反転前: 下が古い(小)、上が新しい(大) -> invert -> 上が古い、下が新しい
+    ax1.invert_yaxis()
+    
+    ax1.set_xlabel('Hour of Day (Real Time)')
+    ax1.set_ylabel('Date (Older -> Newer)')
+    ax1.set_title(f'Timeline of Combat Activities: {TARGET_ATTACKER_COUNTRY}')
+    
+    # X軸の設定 (0時~24時)
+    ax1.set_xlim(0, 24)
+    ax1.set_xticks(np.arange(0, 25, 1))
+    ax1.grid(True, axis='x', linestyle='--', alpha=0.6)
+    
+    # グリッド (Y軸の日付グリッドも見やすくする)
+    ax1.grid(True, axis='y', linestyle='-', alpha=0.3)
+
+    plt.tight_layout()
     plt.show()
 
 if __name__ == "__main__":
