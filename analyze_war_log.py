@@ -14,7 +14,7 @@ import unicodedata
 # -----------------------------------
 # 1. 解析したいファイルが入っているフォルダを指定してください
 # (同じ階層にある場合は '.' 、別のフォルダなら 'data/files' などを指定)
-TARGET_DIR = "data" 
+TARGET_DIR = "data_zombi" 
 FILE_PATTERN = "*.html"
 files_path = os.path.join(TARGET_DIR, FILE_PATTERN)
 INPUT_FILES = glob.glob(files_path)
